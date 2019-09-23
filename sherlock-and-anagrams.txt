@@ -1,0 +1,72 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    // Complete the sherlockAndAnagrams function below.
+    static int sherlockAndAnagrams(String s) {
+
+        int l = s.length();
+        int count = 0;
+        for(int len=1;len<=l-1;len++){
+            for(int j=0;j<=l-len;j++){
+                String sub1 = s.substring(j,j+len);
+                for(int k=j+1;k<=l-len;k++){
+                    String sub2 = s.substring(k,k+len);
+                    if(isAnagrams(sub1,sub2)){
+                        // System.out.println(sub1 + " : " + sub2);
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
+
+    }
+    static boolean isAnagrams(String s1,String s2){
+        
+        char str1[] = s1.toCharArray();
+        char str2[] = s2.toCharArray();
+
+        if(s1.length()!=s2.length()){
+            return false;
+        }
+
+        Arrays.sort(str1); 
+        Arrays.sort(str2); 
+  
+        for (int i = 0; i < s1.length(); i++) 
+            if (str1[i] != str2[i]) 
+                return false; 
+  
+        return true;
+
+    }
+
+    private static final Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        int q = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+        for (int qItr = 0; qItr < q; qItr++) {
+            String s = scanner.nextLine();
+
+            int result = sherlockAndAnagrams(s);
+
+            bufferedWriter.write(String.valueOf(result));
+            bufferedWriter.newLine();
+        }
+
+        bufferedWriter.close();
+
+        scanner.close();
+    }
+}
